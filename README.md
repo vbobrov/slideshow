@@ -82,6 +82,8 @@ This tool only needs to be used for images that need to be cropped or their loca
 
 The App automatically identifies all tagged images from Flickr.
 
+![Home Screen](https://raw.githubusercontent.com/vbobrov/slideshow/main/screenshots/slidemgm-home.jpg)
+
 The view of the App is split into two columns.
 
 On the left, the information from Flickr is shown. It includes low resolution image, dates, location, crop dimensions.
@@ -100,7 +102,7 @@ Status of a location is shown in four different colors:
 
 To edit properties of an image, simply click on that image.
 
-![Edit-Screenshot](https://raw.githubusercontent.com/vbobrov/slideshow/main/screenshots/slidemgm-edit.jpg)
+![Edit Mode](https://raw.githubusercontent.com/vbobrov/slideshow/main/screenshots/slidemgm-edit.jpg)
 
 This will switch the image into crop mode showing the crop box to select which part of the image will be used for the slide show.
 
@@ -115,6 +117,8 @@ Cancel can be pressed to discard any changes.
 To speed up operation of the App, metadata retrieved from Flickr is cached on the local disk. There's a button in the menu bar at the top to force a refresh from Flickr. The cache is also discarded after one hour of inactivity.
 
 Also in the menu bar, is the option to change how the images are sorted. By default, images are sorted by last update to show most recent images at the top. When sorting by date taken, instead of page numbers, the pages are in MM/YY format to help identify an approximate page where image would be found.
+
+![Taken Sort](https://raw.githubusercontent.com/vbobrov/slideshow/main/screenshots/slidemgm-taken-sort.jpg)
 
 # Installation and Configuration
 
@@ -282,8 +286,12 @@ Restart apache2 service
 
 Attempt to access https://raspberry-pi-ip.
 
-You should be presented with a login screen. The password is what's configured in app.wsgi file above
+You should be presented with a login screen. The password is what's configured in app.wsgi file above.
+
+![Login](https://raw.githubusercontent.com/vbobrov/slideshow/main/screenshots/slidemgm-login.jpg)
 
 Once logged in, you should see a listing of all the images tagged with the the value listed in app.wsgi
 
 If Flicker authorization hasn't been done yet in either downloader tool or the Web App, the browser will redirect to Flicker authorization page to access access to the account.
+
+![Flickr Authorization](https://raw.githubusercontent.com/vbobrov/slideshow/main/screenshots/slidemgm-flickrauth.jpg)
