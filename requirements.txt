@@ -1,0 +1,7 @@
+geopy
+requests
+Pillow
+flickrapi
+flask
+flask_login
+

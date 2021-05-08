@@ -1,0 +1,94 @@
+{% extends "slidemgm.html" %}
+{% block title %}Edit{% endblock %}
+{% block head %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js" integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.css" integrity="sha512-w+u2vZqMNUVngx+0GVZYM21Qm093kAexjueWOv9e9nIeYJb1iEfiHC7Y+VvmP/tviQyA5IR32mwN/5hTEJx6Ng==" crossorigin="anonymous" />
+  <script src="/static/edit.js"></script>
+  <style>
+	  .slideimage:hover {
+		border: 1px solid blue;
+	  }
+	  .slideimage {
+		  border: 1px solid black;
+		  cursor: pointer;
+	  }
+  </style>
+{% endblock %}
+{% block content %}
+<nav class="navbar sticky-top navbar-expand-lg bg-secondary navbar-dark">
+	<div class="container-fluid py-0">
+	  <a class="navbar-brand" href="#">Slides</a>
+	  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				  Sort
+				</a>
+				<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+				  <li><a class="dropdown-item {%if sort=='lastupdate'%}active{%endif%}" href={{ url_for('edit_images',page=cur_page,sort="lastupdate") }}>By Update</a></li>
+				  <li><a class="dropdown-item {%if sort=='datetaken'%}active{%endif%}" href={{ url_for('edit_images',page=cur_page,sort="datetaken") }}>By Taken</a></li>
+				</ul>
+			  </li>
+			  <li class="nav-item">
+			<a class="nav-link" aria-current="page" href={{ url_for('edit_images',page=cur_page,refresh=1,sort=sort) }}>Refresh</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="/logout">Logout</a>
+		  </li>
+		</ul>
+	  </div>
+	</div>
+  </nav>
+	<ul class="pagination pagination-sm flex-wrap">
+	{%for page in range(1,pages+1)%}
+		{%if page==cur_page%}
+			<li class="page-item active"><a href={{ url_for('edit_images',page=page) }} class="page-link">{{ page_labels[page] }}</a></li>
+		{%else%}
+			<li class="page-item"><a href={{ url_for('edit_images',page=page,sort=sort) }} class="page-link">{{ page_labels[page] }}</a></li>
+		{%endif%}
+	{%endfor%}
+	</ul>
+
+	<table class="table table-striped table-secondary">
+		<tbody>
+		 {%for photo in photos%}
+		 <tr><td>
+			 <img class="slideimage" src={{ photo['url'] }} id={{ photo['id'] }} data-location="{{photo['description']['location']}}" data-lcrop={{photo['description']['lcrop']}} data-tcrop={{photo['description']['tcrop']}} data-rcrop={{photo['description']['rcrop']}} data-bcrop={{photo['description']['bcrop']}}><br>
+			 Last Updated: {{ photo['lastupdate_str'] }}<br>
+			 Taken: {{ photo['datetaken_str'] }}<br>
+			 Flickr Photo URL: <a href=https://flickr.com/vbobrov/{{ photo['id']}} target=_blank>https://flickr.com/vbobrov/{{ photo['id']}}</a><br>
+			 Flickr Photo Stream URL : <a href=https://flickr.com/photos/vbobrov/with/{{ photo['id']}} target=_blank>https://flickr.com/photos/vbobrov/with/{{ photo['id']}}</a><br>
+			 Geo Status: <span class="badge {%if photo['accuracy']==0 and photo['description']['location']==''%}bg-danger{%endif%}{%if photo['accuracy']==0 and photo['description']['location']!=''%}bg-primary{%endif%}{%if photo['accuracy']>0 and photo['description']['location']!=''%}bg-warning{%endif%}{%if photo['accuracy']>0 and photo['description']['location']==''%}bg-success{%endif%}">{%if photo['accuracy']==0%}Not {%endif%}Available</span><br>
+			 <div id=info{{ photo['id']}}>
+			 Location: {{photo['description']['location']}}<br>
+			 Crops: {{photo['description']['lcrop']}},{{photo['description']['tcrop']}},{{photo['description']['rcrop']}},{{photo['description']['bcrop']}}<br>
+			 </div>
+			 <div id=cropctl{{ photo['id'] }} style="display:none">
+				<input type=checkbox id=imgaspect{{ photo['id'] }} data-id={{ photo['id'] }}>Lock Aspect Ratio<br>
+				<input type=text id=location{{ photo['id'] }} placeholder="Location"><br>
+				<button id=imgsave{{ photo['id'] }} data-id={{ photo['id'] }}>Save</button>
+				<button id=imgcancel{{ photo['id'] }} data-id={{ photo['id'] }}>Cancel</button>
+			</div>
+		</td>
+		<td>
+			<canvas id=crop{{ photo['id'] }} style="background-color:black" width=312 height=500 data-id={{ photo['id'] }}>
+			</canvas>
+		</td>
+	</tr>
+		 {%endfor%}
+		 </tbody>
+	 </table>
+	 <ul class="pagination pagination-sm flex-wrap">
+		{%for page in range(1,pages+1)%}
+			{%if page==cur_page%}
+				<li class="page-item active"><a href={{ url_for('edit_images',page=page) }} class="page-link">{{ page_labels[page] }}</a></li>
+			{%else%}
+				<li class="page-item"><a href={{ url_for('edit_images',page=page,sort=sort) }} class="page-link">{{ page_labels[page] }}</a></li>
+			{%endif%}
+		{%endfor%}
+		</ul>
+{% endblock %}

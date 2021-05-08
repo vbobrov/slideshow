@@ -1,0 +1,41 @@
+{% extends "slidemgm.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+	<div class="container px-2 py-2"></div>
+	<form action="/login" class="needs-validation" method="POST">
+		<div class="container px-2 py-2 shadow border">
+			{% with messages = get_flashed_messages() %}
+			{% if messages %}
+			<div class="row">
+				<div class="col">
+					<div class="bg-danger text-white col-4 px-1">{{ messages[0] }}</div>
+				</div>
+			</div>
+			{% endif %}
+			{% endwith %}
+			<div class="row">
+				<div class="col-6">
+					Login Required
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-2">
+					<label for="password" class="form-label">Password</label>
+				</div>
+				<div class="col-4">
+					<input type="password" name="password" id="password" class="form-control" required>
+					<div class="invalid-feedback">
+						Password is required
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-2">
+					<button type="submit" class="btn-primary">Login</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+</body>
+{% endblock %}

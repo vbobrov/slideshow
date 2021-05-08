@@ -1,0 +1,7 @@
+.vscode
+app.wsgi
+config.py
+*.swp
+.*
+!.gitignore
+__pycache__
