@@ -1,0 +1,1 @@
+Keeping slideshow directory in git

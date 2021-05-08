@@ -55,7 +55,7 @@ for tag_id in TAGS:
 		gps_tag_id=tag_id
 		break
 while True:
-	photos=flickr.photos.search(user_id=flickr_user_id,page=current_page,per_page=500,extras='last_update,date_taken,url_o,url_6k,url_5k,url_4k,url_3k,url_k,url_h,url_b,url_c,url_z,description,geo,tags',tags=slideshow_tag+'123')
+	photos=flickr.photos.search(user_id=flickr_user_id,page=current_page,per_page=500,extras='last_update,date_taken,url_o,url_6k,url_5k,url_4k,url_3k,url_k,url_h,url_b,url_c,url_z,description,geo,tags',tags=slideshow_tag)
 	if current_page>photos['photos']['pages']:
 		break
 	print(f"Processing page {current_page} of {photos['photos']['pages']}")

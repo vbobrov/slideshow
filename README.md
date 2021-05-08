@@ -120,6 +120,10 @@ Also in the menu bar, is the option to change how the images are sorted. By defa
 
 ![Taken Sort](https://raw.githubusercontent.com/vbobrov/slideshow/main/screenshots/slidemgm-taken-sort.jpg)
 
+## Slideshow display
+
+Feh tool is used to display images on the screen. feh is started by **slideshow.sh** shell script. The script feeds all images in random order into feh. This ensures that the entire slideshow is played out before the list is randomized again. Feh does include its own option to show images in random order, but it often repeats the same images.
+
 # Installation and Configuration
 
 ## Flickr Preparation
@@ -146,14 +150,14 @@ I'm assuming that the Raspberry PI will be dedicated to the slideshow and we don
 
 ### Clone slideshow repository
 
-    pi@raspberrypi:~$ git clone git@github.com:vbobrov/slideshow.git
+    pi@raspberrypi:~$ git clone https://github.com/vbobrov/slideshow.git
     pi@raspberrypi:~$ cd slideshow/
 
 ### Disable screen blanking
 
 Copy included X11 config file to disable screensaver. This is the same as disabling Screen Blanking in the GUI.
 
-    pi@raspberrypi:~$ sudo cp rpi/10-blanking.conf /etc/X11/xorg.conf.d
+    pi@raspberrypi:~$ sudo cp ~/slideshow/rpi/10-blanking.conf /etc/X11/xorg.conf.d
 
 ### Switch the screen to portait mode
 
@@ -174,7 +178,7 @@ Add /home/pi/slideshow/rpi/slideshow.sh to /etc/xdg/lxsession/LXDE-pi/autostart
 
 ### Optionally, turn off the screen overnight
 
-Run crontab -e and add hdmi scripts to run at appropriate time
+Run **crontab -e** and add hdmi scripts to run at appropriate time
 
 This example turns off the screen between 9:00 pm and 6:30 am
 
@@ -194,7 +198,7 @@ This example turns off the screen between 9:00 pm and 6:30 am
 ### Set downloader parameters
 Rename config-example.py to config.py and fill in the required parameters
 
-    pi@raspberrypi:~$ cd slideshow/downloader
+    pi@raspberrypi:~$ cd ~/slideshow/downloader
     pi@raspberrypi:~$ mv config-example.py config.py
     pi@raspberrypi:~$ cat config.py
     # Fill in flickr API Key and Secret
@@ -216,7 +220,7 @@ The script will request write access to the Flickr account. It is required to up
 
 After successful authorization, the script will run and download images with the configured tag.
 
-    pi@raspberrypi:~/slideshow/downloader$ ./picdnload.py
+    pi@raspberrypi:~/slideshow/downloader$ ./downloader.py
     Browse to: https://www.flickr.com/services/oauth/authorize?oauth_token=snip&perms=write
     Verifier code: 111-111-111
     Processing page 1 of 1
@@ -239,7 +243,7 @@ Verify that an images or images were downloaded
 
 ### Schedule downloader task  
 
-Set downloader to be run periodically through crontab -e
+Set downloader to be run periodically through **crontab -e**
 This example runs it every 30 minutes
 
     0,30 * * * * cd /home/pi/slideshow/downloader;./downloader.py
@@ -278,7 +282,7 @@ Activate modules
 
 Copy provided configuration file to apache directory
 
-    pi@raspberrypi:~/slideshow/slidemgm$ sudo cp slidemgm.conf /etc/apache2/sites-enabled/000-default.conf
+    pi@raspberrypi:~$ sudo cp ~/slideshow/slidemgm/slidemgm.conf /etc/apache2/sites-enabled/000-default.conf
 
 Restart apache2 service
 
@@ -295,3 +299,9 @@ Once logged in, you should see a listing of all the images tagged with the the v
 If Flicker authorization hasn't been done yet in either downloader tool or the Web App, the browser will redirect to Flicker authorization page to request access to the account.
 
 ![Flickr Authorization](https://raw.githubusercontent.com/vbobrov/slideshow/main/screenshots/slidemgm-flickrauth.jpg)
+
+### Restart to apply all the settings
+
+    pi@raspberrypi:~$ sudo reboot
+
+After the reboot, slideshow should show up on the screen.
