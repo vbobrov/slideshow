@@ -2,7 +2,7 @@
 
 Over many years, we've taken thousands upon thousands of pictures of places, family and friends. We pick a handful of the pictures and print them on physical frames.
 
-Most of the pictures get locked away on a phone or a photo sharing site and never seen again.
+Most of the other pictures get locked away on a phone or a photo sharing site and never seen again.
 
 There are digital frames out there but they're expensive and require a lot of maintenece to crop, label and upload images.
 
@@ -292,6 +292,6 @@ You should be presented with a login screen. The password is what's configured i
 
 Once logged in, you should see a listing of all the images tagged with the the value listed in app.wsgi
 
-If Flicker authorization hasn't been done yet in either downloader tool or the Web App, the browser will redirect to Flicker authorization page to access access to the account.
+If Flicker authorization hasn't been done yet in either downloader tool or the Web App, the browser will redirect to Flicker authorization page to request access to the account.
 
 ![Flickr Authorization](https://raw.githubusercontent.com/vbobrov/slideshow/main/screenshots/slidemgm-flickrauth.jpg)
