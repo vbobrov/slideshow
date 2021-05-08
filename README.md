@@ -99,7 +99,8 @@ Status of a location is shown in four different colors:
 * Yellow (Availble) - GPS coordinates are available, but it is overridden with a different value
 
 To edit properties of an image, simply click on that image.
-![Edit-Screenshot] (https://raw.githubusercontent.com/vbobrov/slideshow/main/screenshots/slidemgm-edit.jpg)
+
+![Edit-Screenshot](https://raw.githubusercontent.com/vbobrov/slideshow/main/screenshots/slidemgm-edit.jpg)
 
 This will switch the image into crop mode showing the crop box to select which part of the image will be used for the slide show.
 
