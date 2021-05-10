@@ -6,7 +6,7 @@ Most of the other pictures get locked away on a phone or a photo sharing site an
 
 There are digital frames out there but they're expensive and require a lot of maintenece to crop, label and upload images.
 
-The tools here simplify and automate getting pictures stored in flickr to a standard monitor connected to an inexpensive Raspberry Pi.
+The tools here simplify and automate getting pictures stored in Flickr to a standard monitor connected to an inexpensive Raspberry Pi. The images are automatically cropped and labeled with date taken and location derived from GPS coordinates of the image.
 
 Here's an image of slideshow being displayed on a 24" monitor
 
