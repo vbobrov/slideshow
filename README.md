@@ -8,6 +8,10 @@ There are digital frames out there but they're expensive and require a lot of ma
 
 The tools here simplify and automate getting pictures stored in flickr to a standard monitor connected to an inexpensive Raspberry Pi.
 
+Here's an image of slideshow being displayed on a 24" monitor
+
+![Example](https://raw.githubusercontent.com/vbobrov/slideshow/main/screenshots/slidemgm-example.jpg)
+
 # Solution Details
 
 Everyone in our family have Apple iPhones.
@@ -18,7 +22,7 @@ All of the images are uploaded to Flickr.
 
 The images are displayed on a wide screen monitor mounted in portrait mode. Aspect ratio of the monitor is 9:16.
 
-3:4 image is smaller than 9:16 display. The extra space is at the top and bottom is used to display the location and the date.
+3:4 image is shorter than 9:16 display. The extra space is at the top and bottom is used to display the location and the date.
 
 ## Flickr Information
 
@@ -60,11 +64,13 @@ If the GPS coordinates are available, reverse geo lookup is performed using Nomi
 
 Next, the tool downloads the highest resolution image from Flickr and stores it on the local disk. Cached images are never re-downloaded again.
 
-Once all the images are downloaded, the slideshow directory is scanned if the slide show image for each of the tagged images is already generated or has an older timestamp than Flickr's lastupdate field.
+Once the image are downloaded, the slideshow directory is checked if the slide show image is already generated or has an older timestamp than Flickr's lastupdate field.
 
 For any slideshow images that need to be generated, the cropping dimensions are applied if so configured in metadata.
 
-The image is, then, resized to fit into 1080x1920 portrait dimensions. The date taken is added at the bottom of the image.
+The image is, then, resized to fit into 1080x1920 portrait dimensions.
+
+The date taken is added at the bottom of the image.
 
 For location, a simple algorithm is used to pick a short and descriptive name for the image. For US, City name is printed for most locations. For International, Country is printed instead. Please refer to source code for the algorithm
 
@@ -77,6 +83,8 @@ Finally, **slideshow.sh** is executed to restart the slide show to pick up the n
 ## Slide Management
 
 This Web App simplifies the process of updating images for the slide show.
+
+There's no direct connection between downloader and the Slide Management App. All data resides in Flicker attributes. In other words, Slide Management App does not need to run on the same system that's running the downloader and the slide show.
 
 This tool only needs to be used for images that need to be cropped or their location updated. If GPS coordinates are available and image location is correctly displayed on the slideshow, there's no need to update the image in this Web App.
 
@@ -112,7 +120,7 @@ Location text is used to override the value displayed on the slide show.
 
 Save button will save the changes. If the changes are successful the background will switch to green for a few seconds. If the changes fail for any reason, the background will turn red and stay in Edit mode.
 
-Cancel can be pressed to discard any changes.
+Cancel will discard any changes.
 
 To speed up operation of the App, metadata retrieved from Flickr is cached on the local disk. There's a button in the menu bar at the top to force a refresh from Flickr. The cache is also discarded after one hour of inactivity.
 
@@ -122,7 +130,7 @@ Also in the menu bar, is the option to change how the images are sorted. By defa
 
 ## Slideshow display
 
-Feh tool is used to display images on the screen. feh is started by **slideshow.sh** shell script. The script feeds all images in random order into feh. This ensures that the entire slideshow is played out before the list is randomized again. Feh does include its own option to show images in random order, but it often repeats the same images.
+Feh tool is used to display images on the screen. Feh is started by **slideshow.sh** shell script. The script feeds all images in random order into feh. This ensures that the entire slideshow is played out before the list is randomized again. Feh does include its own option to show images in random order, but it often repeats the same images.
 
 # Installation and Configuration
 
@@ -132,11 +140,13 @@ These tools require Flickr API to interface with the data. You can request an AP
 
 The API is issue as a pair of values: Key and Secret
 
-In order to allow Flickr to consume GPS coordinates on uploaded images into metadata, enable Import **EXIF location data** in privacy settings: https://www.flickr.com/account/privacy
+In order to allow Flickr to consume GPS coordinates on uploaded images into metadata, enable **Import EXIF location data** in privacy settings: https://www.flickr.com/account/privacy. This option is not required, but it will speed up processing. Downloader will download the original image to attempt to retrive the GPS coordinates directly from the JPG file.
 
 ## Raspberry Pi Configuration
 
 This guide is based Raspbian Buster Desktop Image dated 2021-03-04.
+
+This guide assumes that the OS image is already on the SD card and the Raspeberry PI is booted from it and configured to connect to the Internet. This is one of many guides on getting the SD card prepared: https://www.raspberrypi.org/documentation/installation/installing-images/.
 
 The instructions were tested on a Raspberry Pi 3.
 
@@ -146,7 +156,7 @@ Slide Managment website was not tested on Pi Zero. It could work, but I'd imagin
 
 The device is connected to a monitor with 16:9 aspect ratio, eg. 1920x1080
 
-I'm assuming that the Raspberry PI will be dedicated to the slideshow and we don't need to bother with virtual environments.
+I'm assuming that the Raspberry PI will be dedicated to the slideshow and we don't need Python virtual environments.
 
 ### Clone slideshow repository
 
@@ -256,7 +266,7 @@ The browser will display a certificate warning when accessing this website.
 
 HTTPS is required for Flicker authorization
 
-Rename app-example.wsgi to app.wsgi and update flicker api information
+Rename app-example.wsgi to app.wsgi and update required parameters
 
     pi@raspberrypi:~$ cd ~/slideshow/slidemgm/
     pi@raspberrypi:~/slideshow/slidemgm$ mv app-example.wsgi app.wsgi
