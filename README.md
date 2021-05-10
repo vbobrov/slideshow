@@ -84,9 +84,9 @@ Finally, **slideshow.sh** is executed to restart the slide show to pick up the n
 
 This Web App simplifies the process of updating images for the slide show.
 
-There's no direct connection between downloader and the Slide Management App. All data resides in Flicker attributes. In other words, Slide Management App does not need to run on the same system that's running the downloader and the slide show.
+There's no direct connection between downloader and the Slide Management App. All data is stored in Flickr attributes. In other words, Slide Management App does not need to run on the same system that's running the downloader and the slide show.
 
-This tool only needs to be used for images that need to be cropped or their location updated. If GPS coordinates are available and image location is correctly displayed on the slideshow, there's no need to update the image in this Web App.
+This Web App only needs to be used for images that need to be cropped or their location updated. If GPS coordinates are available and image location is correctly displayed on the slideshow, there's no need to update the image in this Web App.
 
 The App automatically identifies all tagged images from Flickr.
 
@@ -138,9 +138,9 @@ Feh tool is used to display images on the screen. Feh is started by **slideshow.
 
 These tools require Flickr API to interface with the data. You can request an API at this page: https://www.flickr.com/services/apps/create/apply/
 
-The API is issue as a pair of values: Key and Secret
+The API is issued as a pair of values: Key and Secret
 
-In order to allow Flickr to consume GPS coordinates on uploaded images into metadata, enable **Import EXIF location data** in privacy settings: https://www.flickr.com/account/privacy. This option is not required, but it will speed up processing. Downloader will download the original image to attempt to retrive the GPS coordinates directly from the JPG file.
+In order to allow Flickr to consume GPS coordinates on uploaded images into metadata, enable **Import EXIF location data** in privacy settings: https://www.flickr.com/account/privacy. This option is not required, but it will speed up processing. If the option is not enabled, downloader will download the original image and attempt to retrive the GPS coordinates directly from the EXIF data in the JPG file.
 
 ## Raspberry Pi Configuration
 
@@ -152,7 +152,7 @@ The instructions were tested on a Raspberry Pi 3.
 
 The slideshow and the downloader tool were tested to run on Raspberry Pi Zero without any problems.
 
-Slide Managment website was not tested on Pi Zero. It could work, but I'd imagine it would be very slow.
+Slide Managment website was not tested on Pi Zero. It could work, but it would likely be very slow.
 
 The device is connected to a monitor with 16:9 aspect ratio, eg. 1920x1080
 
@@ -258,15 +258,15 @@ This example runs it every 30 minutes
 
     0,30 * * * * cd /home/pi/slideshow/downloader;./downloader.py
 
-### Configure apache for Slide Management
+### Configure apache for Slide Management Web App
 
 The steps below will configure apache with https using self-signed certificate included with Raspberry Pi
 
-The browser will display a certificate warning when accessing this website.
+The browser will display a certificate warning when accessing this website. If Google Chrome doesn't allow you to ignore the certificate warning, type **thisisunsafe** while in Chrome window. This is a secret shortcut to bypass the certificate warning. It works for Microsoft Edge as well.
 
-HTTPS is required for Flicker authorization
+HTTPS is required for Flickr authorization.
 
-Rename app-example.wsgi to app.wsgi and update required parameters
+Rename app-example.wsgi to app.wsgi and update required parameters. These are basically the same parameters as downloader, in case this Web App is deployed to a different server.
 
     pi@raspberrypi:~$ cd ~/slideshow/slidemgm/
     pi@raspberrypi:~/slideshow/slidemgm$ mv app-example.wsgi app.wsgi
