@@ -80,6 +80,8 @@ An HTTP post is sent to a configured link to indicate successful completion. Hea
 
 Finally, **slideshow.sh** is executed to restart the slide show to pick up the new images.
 
+Note, infrequently Flickr API loses authorization to the Flickr account. If an alert is sent from healthcheks.io that downloader hasen't run, either run downloade.py manually or access Slide Management Web App to re-authorize.
+
 ## Slide Management
 
 This Web App simplifies the process of updating images for the slide show.
@@ -150,13 +152,13 @@ This guide assumes that the OS image is already on the SD card and the Raspeberr
 
 The instructions were tested on a Raspberry Pi 3.
 
-The slideshow and the downloader tool were tested to run on Raspberry Pi Zero without any problems.
+The slideshow and the downloader tool were tested to run on Raspberry Pi Zero W without any problems.
 
 Slide Managment website was not tested on Pi Zero. It could work, but it would likely be very slow.
 
 The device is connected to a monitor with 16:9 aspect ratio, eg. 1920x1080
 
-I'm assuming that the Raspberry PI will be dedicated to the slideshow and we don't need Python virtual environments.
+It's assumed that the Raspberry PI will be dedicated to the slideshow and Python virtual environments are not needed.
 
 ### Clone slideshow repository
 
@@ -173,17 +175,14 @@ Copy included X11 config file to disable screensaver. This is the same as disabl
 
 Add display_htmi_rotate=1 (90 degrees) or =3 (270 degrees) to /boot/config.txt depending on how the monitor is mounted
 
-    pi@raspberrypi:~$ grep display_hdmi_rotate /boot/config.txt
+    pi@raspberrypi:~$ echo display_hdmi_rotate=3 | sudo tee -a /boot/config.txt
     display_hdmi_rotate=3
 
-### Configure slideshow to start on restart
+### Configure slideshow to start on reboot
 
 Add /home/pi/slideshow/rpi/slideshow.sh to /etc/xdg/lxsession/LXDE-pi/autostart
 
-    pi@raspberrypi:~$ cat /etc/xdg/lxsession/LXDE-pi/autostart
-    @lxpanel --profile LXDE-pi
-    @pcmanfm --desktop --profile LXDE-pi
-    @xscreensaver -no-splash
+    pi@slideshow:~$ echo /home/pi/slideshow/rpi/slideshow.sh | sudo tee -a /etc/xdg/lxsession/LXDE-pi/autostart
     /home/pi/slideshow/rpi/slideshow.sh
 
 ### Optionally, turn off the screen overnight
@@ -253,10 +252,11 @@ Verify that an images or images were downloaded
 
 ### Schedule downloader task  
 
-Set downloader to be run periodically through **crontab -e**
+Set downloader to be run periodically through **crontab -e**.
+The output needs to be redirected to prevent download from waiting for Flickr authorization prompt.
 This example runs it every 30 minutes
 
-    0,30 * * * * cd /home/pi/slideshow/downloader;./downloader.py
+    0,30 * * * * cd /home/pi/slideshow/downloader;./downloader.py >/dev/null 2>/dev/null
 
 ### Configure apache for Slide Management Web App
 
