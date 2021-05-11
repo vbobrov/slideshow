@@ -306,7 +306,7 @@ You should be presented with a login screen. The password is what's configured i
 
 Once logged in, you should see a listing of all the images tagged with the the value listed in app.wsgi
 
-If Flicker authorization hasn't been done yet in either downloader tool or the Web App, the browser will redirect to Flicker authorization page to request access to the account.
+If Flickr authorization hasn't been done yet in either downloader tool or the Web App, the browser will redirect to Flickr authorization page to request access to the account.
 
 ![Flickr Authorization](https://raw.githubusercontent.com/vbobrov/slideshow/main/screenshots/slidemgm-flickrauth.jpg)
 
