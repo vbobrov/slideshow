@@ -80,7 +80,7 @@ An HTTP post is sent to a configured link to indicate successful completion. Hea
 
 Finally, **slideshow.sh** is executed to restart the slide show to pick up the new images.
 
-Note, infrequently Flickr API loses authorization to the Flickr account. If an alert is sent from healthcheks.io that downloader hasen't run, either run downloade.py manually or access Slide Management Web App to re-authorize.
+Note, infrequently Flickr API loses authorization to the Flickr account. If an alert is sent from healthcheks.io that downloader hasn't run, either run downloader.py manually or access Slide Management Web App to re-authorize.
 
 ## Slide Management
 
