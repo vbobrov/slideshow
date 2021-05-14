@@ -68,10 +68,16 @@
 			 Crops: {{photo['description']['lcrop']}},{{photo['description']['tcrop']}},{{photo['description']['rcrop']}},{{photo['description']['bcrop']}}<br>
 			 </div>
 			 <div id=cropctl{{ photo['id'] }} style="display:none">
-				<input type=checkbox id=imgaspect{{ photo['id'] }} data-id={{ photo['id'] }}>Lock Aspect Ratio<br>
-				<input type=text id=location{{ photo['id'] }} placeholder="Location"><br>
-				<button id=imgsave{{ photo['id'] }} data-id={{ photo['id'] }}>Save</button>
-				<button id=imgcancel{{ photo['id'] }} data-id={{ photo['id'] }}>Cancel</button>
+				<input class="form-check-input" type=checkbox id=imgaspect{{ photo['id'] }} data-id={{ photo['id'] }}>
+				<label class="form-check-label" for=imgaspect{{ photo['id'] }}>
+					Lock Aspect Ratio
+				</label>
+				<div class="col-2">
+				<label class="form-label" for=location{{ photo['id'] }}>Location Override</label>
+				<input class="form-control" type=text id=location{{ photo['id'] }} placeholder="Location">
+				</div>
+				<button class="btn btn-success" id=imgsave{{ photo['id'] }} data-id={{ photo['id'] }}>Save</button>
+				<button class="btn btn-danger" id=imgcancel{{ photo['id'] }} data-id={{ photo['id'] }}>Cancel</button>
 			</div>
 		</td>
 		<td>
