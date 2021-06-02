@@ -169,6 +169,7 @@ It's assumed that the Raspberry PI will be dedicated to the slideshow and Python
 
 Copy included X11 config file to disable screensaver. This is the same as disabling Screen Blanking in the GUI.
 
+    pi@raspberrypi:~$ sudo mkdir -p /etc/X11/xorg.conf.d
     pi@raspberrypi:~$ sudo cp ~/slideshow/rpi/10-blanking.conf /etc/X11/xorg.conf.d
 
 ### Switch the screen to portait mode

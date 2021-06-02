@@ -13,10 +13,13 @@
 		  border: 1px solid black;
 		  cursor: pointer;
 	  }
+	  .img-container {
+			max-width: 50%;
+	  }
   </style>
 {% endblock %}
 {% block content %}
-<nav class="navbar sticky-top navbar-expand-lg bg-secondary navbar-dark">
+<nav class="navbar navbar-expand-lg bg-secondary navbar-dark">
 	<div class="container-fluid py-0">
 	  <a class="navbar-brand" href="#">Slides</a>
 	  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +60,9 @@
 		<tbody>
 		 {%for photo in photos%}
 		 <tr><td>
+			 <div class="img-container">
 			 <img class="slideimage" src={{ photo['url'] }} id={{ photo['id'] }} data-location="{{photo['description']['location']}}" data-lcrop={{photo['description']['lcrop']}} data-tcrop={{photo['description']['tcrop']}} data-rcrop={{photo['description']['rcrop']}} data-bcrop={{photo['description']['bcrop']}}><br>
+			 </div>
 			 Last Updated: {{ photo['lastupdate_str'] }}<br>
 			 Taken: {{ photo['datetaken_str'] }}<br>
 			 Flickr Photo URL: <a href=https://flickr.com/vbobrov/{{ photo['id']}} target=_blank>https://flickr.com/vbobrov/{{ photo['id']}}</a><br>
