@@ -99,7 +99,7 @@ while True:
 			url=photo['url_o']
 			print(f"Download URL for url_o is {url}")
 			image=Image.open(requests.get(url,stream=True).raw)
-			exifdata=image.getexif()
+			exifdata=image._getexif()
 			try:
 				data=exifdata.get(gps_tag_id)
 				latitude_ref=data[1]
