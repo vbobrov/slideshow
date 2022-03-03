@@ -88,6 +88,7 @@ def edit_images(page):
 			return redirect("/flickrlogin")
 		edit_photos=[]
 		current_page=1
+		loaded_photos={}
 		while True:
 			photos=flickr.photos.search(user_id=g.flickr_user_id,page=current_page,per_page=500,tags=g.slideshow_tag,extras='last_update,url_m,description,geo,date_taken')
 			if current_page>photos['photos']['pages']:
@@ -97,6 +98,9 @@ def edit_images(page):
 				if not 'url_m' in photo:
 					continue
 				photo_id=photo['id']
+				if photo_id in loaded_photos:
+					continue
+				loaded_photos[photo_id]=True
 				photo_url=photo['url_m']
 				lastupdate=int(photo['lastupdate'])
 				accuracy=int(photo['accuracy'])
