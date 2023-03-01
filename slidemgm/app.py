@@ -94,7 +94,7 @@ def edit_images(page):
         while end_date.year>=1980:
             while True:
                 start_date=end_date-timedelta(days=g.search_days)
-                photos=flickr.photos.search(user_id=g.flickr_user_id,min_taken_date=start_date.strftime("%m/%d/%Y"),max_taken_date=end_date.strftime("%m/%d/%Y"),tags=g.slideshow_tag)
+                photos=flickr.photos.search(user_id=g.flickr_user_id,min_taken_date=start_date.strftime("%m/%d/%Y 00:00:00"),max_taken_date=end_date.strftime("%m/%d/%Y 23:59:59"),tags=g.slideshow_tag)
                 total_photos=photos['photos']['total']
                 if total_photos>g.max_photos:
                     g.search_days=int(g.search_days*0.8)
@@ -102,7 +102,7 @@ def edit_images(page):
                     break
             current_page=1
             while total_photos>0:
-                photos=flickr.photos.search(user_id=g.flickr_user_id,min_taken_date=start_date.strftime("%m/%d/%Y"),max_taken_date=end_date.strftime("%m/%d/%Y"),page=current_page,per_page=500,tags=g.slideshow_tag,extras='last_update,url_m,description,geo,date_taken')
+                photos=flickr.photos.search(user_id=g.flickr_user_id,min_taken_date=start_date.strftime("%m/%d/%Y 00:00:00"),max_taken_date=end_date.strftime("%m/%d/%Y 23:59:59"),page=current_page,per_page=500,tags=g.slideshow_tag,extras='last_update,url_m,description,geo,date_taken')
                 if current_page>photos['photos']['pages']:
                     break
                 current_page=current_page+1

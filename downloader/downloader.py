@@ -58,7 +58,7 @@ end_date=datetime.now()
 while end_date.year>=1980:
     while True:
         start_date=end_date-timedelta(days=search_days)
-        photos=flickr.photos.search(user_id=flickr_user_id,min_taken_date=start_date.strftime("%m/%d/%Y"),max_taken_date=end_date.strftime("%m/%d/%Y"),tags=slideshow_tag)
+        photos=flickr.photos.search(user_id=flickr_user_id,min_taken_date=start_date.strftime("%m/%d/%Y 00:00:00"),max_taken_date=end_date.strftime("%m/%d/%Y 23:59:59"),tags=slideshow_tag)
         total_photos=photos['photos']['total']
         if total_photos>max_photos:
             search_days=int(search_days*0.8)
@@ -67,7 +67,7 @@ while end_date.year>=1980:
     photo_count+=total_photos
     current_page=1
     while total_photos>0:
-        photos=flickr.photos.search(user_id=flickr_user_id,min_taken_date=start_date.strftime("%m/%d/%Y"),max_taken_date=end_date.strftime("%m/%d/%Y"),page=current_page,per_page=500,extras='last_update,date_taken,url_o,url_6k,url_5k,url_4k,url_3k,url_k,url_h,url_b,url_c,url_z,description,geo,tags',tags=slideshow_tag)
+        photos=flickr.photos.search(user_id=flickr_user_id,min_taken_date=start_date.strftime("%m/%d/%Y 00:00:00"),max_taken_date=end_date.strftime("%m/%d/%Y 23:59:59"),page=current_page,per_page=500,extras='last_update,date_taken,url_o,url_6k,url_5k,url_4k,url_3k,url_k,url_h,url_b,url_c,url_z,description,geo,tags',tags=slideshow_tag)
         if current_page>photos['photos']['pages']:
             break
         print(f"Date range {start_date.strftime('%m/%d/%Y')} to {end_date.strftime('%m/%d/%Y')}. Processing page {current_page} of {photos['photos']['pages']}")
