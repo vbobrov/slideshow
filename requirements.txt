@@ -4,4 +4,4 @@ Pillow
 flickrapi
 flask
 flask_login
-
+python-magic

@@ -7,6 +7,7 @@ import re
 import json
 import pathlib
 import html
+import magic
 from datetime import datetime,timedelta
 from geopy.geocoders import Nominatim
 from geopy.distance import distance
@@ -90,12 +91,15 @@ while end_date.year>=1980:
                     url=photo[url_name]
                     print(f"Download URL for {url_name} is {url}")
                     response=requests.get(url)
-                    file_name=f"{photo_id}_z.jpg"
-                    print(f"Saving to {file_name}")
-                    pic_file=open(file_name,"wb")
-                    pic_file.write(response.content)
-                    pic_file.close()
-                    break
+                    if "JPEG" in magic.from_buffer(response.content):
+                        file_name=f"{photo_id}_z.jpg"
+                        print(f"Saving to {file_name}")
+                        pic_file=open(file_name,"wb")
+                        pic_file.write(response.content)
+                        pic_file.close()
+                    else:
+                        print("Downloaded file is not JPEG")
+                        break
                 else:
                     print("Image resolution too low. Removing slideshow tag")
                     photo_info=flickr.photos.getInfo(photo_id=photo_id)
@@ -103,7 +107,8 @@ while end_date.year>=1980:
                         if tag['raw']==slideshow_tag:
                             flickr.photos.removeTag(tag_id=tag['id'])
                     break
-
+                if file_name is None:
+                    continue
             gps_lat=None
             gps_lon=None
             if int(photo['accuracy'])==0 and not 'nogps' in photo['tags']:
