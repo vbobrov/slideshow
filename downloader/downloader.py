@@ -97,6 +97,7 @@ while end_date.year>=1980:
                         pic_file=open(file_name,"wb")
                         pic_file.write(response.content)
                         pic_file.close()
+                        break
                     else:
                         print("Downloaded file is not JPEG")
                         break
